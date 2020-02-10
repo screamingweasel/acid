@@ -1,5 +1,11 @@
--- id, first_name, last_name, email, gender, phone_nbr
+------------------------------------------------------------------------------------------------
+-- Exter
+------------------------------------------------------------------------------------------------
+-- wget https://screamingweasel.s3.us-west-2.amazonaws.com/people.csv
+-- hadoop fs -mkdir -p /tmp/people
+-- hadoop fs -put ./people.csv /tmp/people
 
+DROP TABLE IF EXISTS default.people_raw;
 CREATE EXTERNAL TABLE default.people_raw (
   id bigint,
   first_name string,
@@ -7,6 +13,9 @@ CREATE EXTERNAL TABLE default.people_raw (
   email string,
   gender string,
   phone_nbr string)
-ROW FORMAT DELIMITED 
+ROW FORMAT DELIMITED
 FIELDS TERMINATED BY ','
-LOCATION 's3n://screamingweasel/people.csv';
+STORED AS TEXTFILE
+LOCATION '/tmp/people/';
+
+SELECT * FROM default.people_raw limit 10;
