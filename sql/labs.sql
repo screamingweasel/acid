@@ -26,9 +26,6 @@ FROM   default.people_raw
 WHERE  id BETWEEN 1 AND 10;
 
 !sh hdfs dfs -ls -R hdfs://c316-node2.squadron.support.hortonworks.com:8020/warehouse/tablespace/managed/hive/jbarnett.db/people
-drwxrwx---+  - hive hadoop          0 2020-02-10 17:00 hdfs://c316-node2.squadron.support.hortonworks.com:8020/warehouse/tablespace/managed/hive/jbarnett.db/people/base_0000001
--rw-rw----+  3 hive hadoop          1 2020-02-10 17:00 hdfs://c316-node2.squadron.support.hortonworks.com:8020/warehouse/tablespace/managed/hive/jbarnett.db/people/base_0000001/_orc_acid_version
--rw-rw----+  3 hive hadoop       1716 2020-02-10 17:00 hdfs://c316-node2.squadron.support.hortonworks.com:8020/warehouse/tablespace/managed/hive/jbarnett.db/people/base_0000001/bucket_00000
 
 ------------------------------------------------------------------------------------------------
 -- 2. Update
@@ -38,15 +35,7 @@ UPDATE people SET
   first_name = CONCAT(first_name,'-X')
 WHERE  id BETWEEN 1 AND 5;
 
-drwxrwx---+  - hive hadoop          0 2020-02-10 17:00 hdfs://c316-node2.squadron.support.hortonworks.com:8020/warehouse/tablespace/managed/hive/jbarnett.db/people/base_0000001
--rw-rw----+  3 hive hadoop          1 2020-02-10 17:00 hdfs://c316-node2.squadron.support.hortonworks.com:8020/warehouse/tablespace/managed/hive/jbarnett.db/people/base_0000001/_orc_acid_version
--rw-rw----+  3 hive hadoop       1716 2020-02-10 17:00 hdfs://c316-node2.squadron.support.hortonworks.com:8020/warehouse/tablespace/managed/hive/jbarnett.db/people/base_0000001/bucket_00000
-drwxrwx---+  - hive hadoop          0 2020-02-10 17:02 hdfs://c316-node2.squadron.support.hortonworks.com:8020/warehouse/tablespace/managed/hive/jbarnett.db/people/delete_delta_0000002_0000002_0000
--rw-rw----+  3 hive hadoop          1 2020-02-10 17:02 hdfs://c316-node2.squadron.support.hortonworks.com:8020/warehouse/tablespace/managed/hive/jbarnett.db/people/delete_delta_0000002_0000002_0000/_orc_acid_version
--rw-rw----+  3 hive hadoop        835 2020-02-10 17:02 hdfs://c316-node2.squadron.support.hortonworks.com:8020/warehouse/tablespace/managed/hive/jbarnett.db/people/delete_delta_0000002_0000002_0000/bucket_00000
-drwxrwx---+  - hive hadoop          0 2020-02-10 17:02 hdfs://c316-node2.squadron.support.hortonworks.com:8020/warehouse/tablespace/managed/hive/jbarnett.db/people/delta_0000002_0000002_0000
--rw-rw----+  3 hive hadoop          1 2020-02-10 17:02 hdfs://c316-node2.squadron.support.hortonworks.com:8020/warehouse/tablespace/managed/hive/jbarnett.db/people/delta_0000002_0000002_0000/_orc_acid_version
--rw-rw----+  3 hive hadoop       1544 2020-02-10 17:02 hdfs://c316-node2.squadron.support.hortonworks.com:8020/warehouse/tablespace/managed/hive/jbarnett.db/people/delta_0000002_0000002_0000/bucket_00000
+!sh hdfs dfs -ls -R hdfs://c316-node2.squadron.support.hortonworks.com:8020/warehouse/tablespace/managed/hive/jbarnett.db/people
 
 ------------------------------------------------------------------------------------------------
 -- 3. New Inserts
@@ -56,73 +45,29 @@ SELECT id, first_name, last_name, email, gender, phone_nbr
 FROM   default.people_raw
 WHERE  id BETWEEN 11 AND 20;
 
-drwxrwx---+  - hive hadoop          0 2020-02-10 17:00 hdfs://c316-node2.squadron.support.hortonworks.com:8020/warehouse/tablespace/managed/hive/jbarnett.db/people/base_0000001
--rw-rw----+  3 hive hadoop          1 2020-02-10 17:00 hdfs://c316-node2.squadron.support.hortonworks.com:8020/warehouse/tablespace/managed/hive/jbarnett.db/people/base_0000001/_orc_acid_version
--rw-rw----+  3 hive hadoop       1716 2020-02-10 17:00 hdfs://c316-node2.squadron.support.hortonworks.com:8020/warehouse/tablespace/managed/hive/jbarnett.db/people/base_0000001/bucket_00000
-drwxrwx---+  - hive hadoop          0 2020-02-10 17:02 hdfs://c316-node2.squadron.support.hortonworks.com:8020/warehouse/tablespace/managed/hive/jbarnett.db/people/delete_delta_0000002_0000002_0000
--rw-rw----+  3 hive hadoop          1 2020-02-10 17:02 hdfs://c316-node2.squadron.support.hortonworks.com:8020/warehouse/tablespace/managed/hive/jbarnett.db/people/delete_delta_0000002_0000002_0000/_orc_acid_version
--rw-rw----+  3 hive hadoop        835 2020-02-10 17:02 hdfs://c316-node2.squadron.support.hortonworks.com:8020/warehouse/tablespace/managed/hive/jbarnett.db/people/delete_delta_0000002_0000002_0000/bucket_00000
-drwxrwx---+  - hive hadoop          0 2020-02-10 17:02 hdfs://c316-node2.squadron.support.hortonworks.com:8020/warehouse/tablespace/managed/hive/jbarnett.db/people/delta_0000002_0000002_0000
--rw-rw----+  3 hive hadoop          1 2020-02-10 17:02 hdfs://c316-node2.squadron.support.hortonworks.com:8020/warehouse/tablespace/managed/hive/jbarnett.db/people/delta_0000002_0000002_0000/_orc_acid_version
--rw-rw----+  3 hive hadoop       1544 2020-02-10 17:02 hdfs://c316-node2.squadron.support.hortonworks.com:8020/warehouse/tablespace/managed/hive/jbarnett.db/people/delta_0000002_0000002_0000/bucket_00000
-drwxrwx---+  - hive hadoop          0 2020-02-10 17:03 hdfs://c316-node2.squadron.support.hortonworks.com:8020/warehouse/tablespace/managed/hive/jbarnett.db/people/delta_0000003_0000003_0000
--rw-rw----+  3 hive hadoop          1 2020-02-10 17:03 hdfs://c316-node2.squadron.support.hortonworks.com:8020/warehouse/tablespace/managed/hive/jbarnett.db/people/delta_0000003_0000003_0000/_orc_acid_version
--rw-rw----+  3 hive hadoop       1737 2020-02-10 17:03 hdfs://c316-node2.squadron.support.hortonworks.com:8020/warehouse/tablespace/managed/hive/jbarnett.db/people/delta_0000003_0000003_0000/bucket_00000
-
 INSERT INTO people VALUES (111, 'fname', 'lname', 'myemail111@cloudera.com', 'M', '111-222-4444');
 INSERT INTO people VALUES (112, 'fname', 'lname', 'myemail112@cloudera.com', 'F', '112-222-4444');
 INSERT INTO people VALUES (113, 'fname', 'lname', 'myemail113@cloudera.com', 'F', '113-222-4444');
 
--- Note the differences between bulk inserts and single-row inserts
+!sh hdfs dfs -ls -R hdfs://c316-node2.squadron.support.hortonworks.com:8020/warehouse/tablespace/managed/hive/jbarnett.db/people
 
 ------------------------------------------------------------------------------------------------
 -- 4. Delete
 ------------------------------------------------------------------------------------------------
 DELETE FROM people WHERE id IN (1,3,5);
 
-drwxrwx---+  - hive hadoop          0 2020-02-10 17:00 hdfs://c316-node2.squadron.support.hortonworks.com:8020/warehouse/tablespace/managed/hive/jbarnett.db/people/base_0000001
--rw-rw----+  3 hive hadoop          1 2020-02-10 17:00 hdfs://c316-node2.squadron.support.hortonworks.com:8020/warehouse/tablespace/managed/hive/jbarnett.db/people/base_0000001/_orc_acid_version
--rw-rw----+  3 hive hadoop       1716 2020-02-10 17:00 hdfs://c316-node2.squadron.support.hortonworks.com:8020/warehouse/tablespace/managed/hive/jbarnett.db/people/base_0000001/bucket_00000
-drwxrwx---+  - hive hadoop          0 2020-02-10 17:02 hdfs://c316-node2.squadron.support.hortonworks.com:8020/warehouse/tablespace/managed/hive/jbarnett.db/people/delete_delta_0000002_0000002_0000
--rw-rw----+  3 hive hadoop          1 2020-02-10 17:02 hdfs://c316-node2.squadron.support.hortonworks.com:8020/warehouse/tablespace/managed/hive/jbarnett.db/people/delete_delta_0000002_0000002_0000/_orc_acid_version
--rw-rw----+  3 hive hadoop        835 2020-02-10 17:02 hdfs://c316-node2.squadron.support.hortonworks.com:8020/warehouse/tablespace/managed/hive/jbarnett.db/people/delete_delta_0000002_0000002_0000/bucket_00000
-drwxrwx---+  - hive hadoop          0 2020-02-10 17:04 hdfs://c316-node2.squadron.support.hortonworks.com:8020/warehouse/tablespace/managed/hive/jbarnett.db/people/delete_delta_0000004_0000004_0000
--rw-rw----+  3 hive hadoop          1 2020-02-10 17:04 hdfs://c316-node2.squadron.support.hortonworks.com:8020/warehouse/tablespace/managed/hive/jbarnett.db/people/delete_delta_0000004_0000004_0000/_orc_acid_version
--rw-rw----+  3 hive hadoop        830 2020-02-10 17:04 hdfs://c316-node2.squadron.support.hortonworks.com:8020/warehouse/tablespace/managed/hive/jbarnett.db/people/delete_delta_0000004_0000004_0000/bucket_00000
-drwxrwx---+  - hive hadoop          0 2020-02-10 17:02 hdfs://c316-node2.squadron.support.hortonworks.com:8020/warehouse/tablespace/managed/hive/jbarnett.db/people/delta_0000002_0000002_0000
--rw-rw----+  3 hive hadoop          1 2020-02-10 17:02 hdfs://c316-node2.squadron.support.hortonworks.com:8020/warehouse/tablespace/managed/hive/jbarnett.db/people/delta_0000002_0000002_0000/_orc_acid_version
--rw-rw----+  3 hive hadoop       1544 2020-02-10 17:02 hdfs://c316-node2.squadron.support.hortonworks.com:8020/warehouse/tablespace/managed/hive/jbarnett.db/people/delta_0000002_0000002_0000/bucket_00000
-drwxrwx---+  - hive hadoop          0 2020-02-10 17:03 hdfs://c316-node2.squadron.support.hortonworks.com:8020/warehouse/tablespace/managed/hive/jbarnett.db/people/delta_0000003_0000003_0000
--rw-rw----+  3 hive hadoop          1 2020-02-10 17:03 hdfs://c316-node2.squadron.support.hortonworks.com:8020/warehouse/tablespace/managed/hive/jbarnett.db/people/delta_0000003_0000003_0000/_orc_acid_version
--rw-rw----+  3 hive hadoop       1737 2020-02-10 17:03 hdfs://c316-node2.squadron.support.hortonworks.com:8020/warehouse/tablespace/managed/hive/jbarnett.db/people/delta_0000003_0000003_0000/bucket_00000
+!sh hdfs dfs -ls -R hdfs://c316-node2.squadron.support.hortonworks.com:8020/warehouse/tablespace/managed/hive/jbarnett.db/people
 
 ------------------------------------------------------------------------------------------------
--- 5. Minor Compaction
+-- 5. Compaction
 ------------------------------------------------------------------------------------------------
 ALTER TABLE people COMPACT 'minor';
 SHOW COMPACTIONS;
+!sh hdfs dfs -ls -R hdfs://c316-node2.squadron.support.hortonworks.com:8020/warehouse/tablespace/managed/hive/jbarnett.db/people
 
-drwxrwx---+  - hive hadoop          0 2020-02-10 17:00 hdfs://c316-node2.squadron.support.hortonworks.com:8020/warehouse/tablespace/managed/hive/jbarnett.db/people/base_0000001
--rw-rw----+  3 hive hadoop          1 2020-02-10 17:00 hdfs://c316-node2.squadron.support.hortonworks.com:8020/warehouse/tablespace/managed/hive/jbarnett.db/people/base_0000001/_orc_acid_version
--rw-rw----+  3 hive hadoop       1716 2020-02-10 17:00 hdfs://c316-node2.squadron.support.hortonworks.com:8020/warehouse/tablespace/managed/hive/jbarnett.db/people/base_0000001/bucket_00000
-drwxrwx---+  - hive hadoop          0 2020-02-10 17:05 hdfs://c316-node2.squadron.support.hortonworks.com:8020/warehouse/tablespace/managed/hive/jbarnett.db/people/delete_delta_0000002_0000004
--rw-rw----+  3 hive hadoop          1 2020-02-10 17:05 hdfs://c316-node2.squadron.support.hortonworks.com:8020/warehouse/tablespace/managed/hive/jbarnett.db/people/delete_delta_0000002_0000004/_orc_acid_version
--rw-rw----+  3 hive hadoop        842 2020-02-10 17:05 hdfs://c316-node2.squadron.support.hortonworks.com:8020/warehouse/tablespace/managed/hive/jbarnett.db/people/delete_delta_0000002_0000004/bucket_00000
-drwxrwx---+  - hive hadoop          0 2020-02-10 17:05 hdfs://c316-node2.squadron.support.hortonworks.com:8020/warehouse/tablespace/managed/hive/jbarnett.db/people/delta_0000002_0000004
--rw-rw----+  3 hive hadoop          1 2020-02-10 17:05 hdfs://c316-node2.squadron.support.hortonworks.com:8020/warehouse/tablespace/managed/hive/jbarnett.db/people/delta_0000002_0000004/_orc_acid_version
--rw-rw----+  3 hive hadoop       1607 2020-02-10 17:05 hdfs://c316-node2.squadron.support.hortonworks.com:8020/warehouse/tablespace/managed/hive/jbarnett.db/people/delta_0000002_0000004/bucket_00000
-
-------------------------------------------------------------------------------------------------
--- 5. Major Compaction
-------------------------------------------------------------------------------------------------
 ALTER TABLE people COMPACT 'major';
 SHOW COMPACTIONS;
-
-drwxrwx---+  - hive hadoop          0 2020-02-10 17:10 hdfs://c316-node2.squadron.support.hortonworks.com:8020/warehouse/tablespace/managed/hive/jbarnett.db/people/.hive-staging_hive_2020-02-10_17-10-27_882_5596841675991100306-1
-drwxrwx---+  - hive hadoop          0 2020-02-10 17:07 hdfs://c316-node2.squadron.support.hortonworks.com:8020/warehouse/tablespace/managed/hive/jbarnett.db/people/base_0000004
--rw-rw----+  3 hive hadoop         48 2020-02-10 17:07 hdfs://c316-node2.squadron.support.hortonworks.com:8020/warehouse/tablespace/managed/hive/jbarnett.db/people/base_0000004/_metadata_acid
--rw-rw----+  3 hive hadoop          1 2020-02-10 17:07 hdfs://c316-node2.squadron.support.hortonworks.com:8020/warehouse/tablespace/managed/hive/jbarnett.db/people/base_0000004/_orc_acid_version
--rw-rw----+  3 hive hadoop       2096 2020-02-10 17:07 hdfs://c316-node2.squadron.support.hortonworks.com:8020/warehouse/tablespace/managed/hive/jbarnett.db/people/base_0000004/bucket_00000
+!sh hdfs dfs -ls -R hdfs://c316-node2.squadron.support.hortonworks.com:8020/warehouse/tablespace/managed/hive/jbarnett.db/people
 
 ------------------------------------------------------------------------------------------------
 -- 6. Merge. Note: Union only needed to simulate an input table with mixed inserts and updates
@@ -148,35 +93,14 @@ WHEN NOT MATCHED THEN INSERT VALUES
  
 SELECT * FROM people ORDER BY id;
 
-drwxrwx---+  - hive hadoop          0 2020-02-10 17:10 hdfs://c316-node2.squadron.support.hortonworks.com:8020/warehouse/tablespace/managed/hive/jbarnett.db/people/.hive-staging_hive_2020-02-10_17-10-27_882_5596841675991100306-1
-drwxrwx---+  - hive hadoop          0 2020-02-10 17:07 hdfs://c316-node2.squadron.support.hortonworks.com:8020/warehouse/tablespace/managed/hive/jbarnett.db/people/base_0000004
--rw-rw----+  3 hive hadoop         48 2020-02-10 17:07 hdfs://c316-node2.squadron.support.hortonworks.com:8020/warehouse/tablespace/managed/hive/jbarnett.db/people/base_0000004/_metadata_acid
--rw-rw----+  3 hive hadoop          1 2020-02-10 17:07 hdfs://c316-node2.squadron.support.hortonworks.com:8020/warehouse/tablespace/managed/hive/jbarnett.db/people/base_0000004/_orc_acid_version
--rw-rw----+  3 hive hadoop       2096 2020-02-10 17:07 hdfs://c316-node2.squadron.support.hortonworks.com:8020/warehouse/tablespace/managed/hive/jbarnett.db/people/base_0000004/bucket_00000
-drwxrwx---+  - hive hadoop          0 2020-02-10 17:21 hdfs://c316-node2.squadron.support.hortonworks.com:8020/warehouse/tablespace/managed/hive/jbarnett.db/people/base_0000007
--rw-rw----+  3 hive hadoop         48 2020-02-10 17:21 hdfs://c316-node2.squadron.support.hortonworks.com:8020/warehouse/tablespace/managed/hive/jbarnett.db/people/base_0000007/_metadata_acid
--rw-rw----+  3 hive hadoop          1 2020-02-10 17:21 hdfs://c316-node2.squadron.support.hortonworks.com:8020/warehouse/tablespace/managed/hive/jbarnett.db/people/base_0000007/_orc_acid_version
--rw-rw----+  3 hive hadoop       2457 2020-02-10 17:21 hdfs://c316-node2.squadron.support.hortonworks.com:8020/warehouse/tablespace/managed/hive/jbarnett.db/people/base_0000007/bucket_00000
-drwxrwx---+  - hive hadoop          0 2020-02-10 17:20 hdfs://c316-node2.squadron.support.hortonworks.com:8020/warehouse/tablespace/managed/hive/jbarnett.db/people/delete_delta_0000007_0000007_0003
--rw-rw----+  3 hive hadoop          1 2020-02-10 17:20 hdfs://c316-node2.squadron.support.hortonworks.com:8020/warehouse/tablespace/managed/hive/jbarnett.db/people/delete_delta_0000007_0000007_0003/_orc_acid_version
--rw-rw----+  3 hive hadoop        866 2020-02-10 17:20 hdfs://c316-node2.squadron.support.hortonworks.com:8020/warehouse/tablespace/managed/hive/jbarnett.db/people/delete_delta_0000007_0000007_0003/bucket_00000
-drwxrwx---+  - hive hadoop          0 2020-02-10 17:20 hdfs://c316-node2.squadron.support.hortonworks.com:8020/warehouse/tablespace/managed/hive/jbarnett.db/people/delta_0000007_0000007_0001
--rw-rw----+  3 hive hadoop          1 2020-02-10 17:20 hdfs://c316-node2.squadron.support.hortonworks.com:8020/warehouse/tablespace/managed/hive/jbarnett.db/people/delta_0000007_0000007_0001/_orc_acid_version
--rw-rw----+  3 hive hadoop       1738 2020-02-10 17:20 hdfs://c316-node2.squadron.support.hortonworks.com:8020/warehouse/tablespace/managed/hive/jbarnett.db/people/delta_0000007_0000007_0001/bucket_00000
-drwxrwx---+  - hive hadoop          0 2020-02-10 17:20 hdfs://c316-node2.squadron.support.hortonworks.com:8020/warehouse/tablespace/managed/hive/jbarnett.db/people/delta_0000007_0000007_0003
--rw-rw----+  3 hive hadoop          1 2020-02-10 17:20 hdfs://c316-node2.squadron.support.hortonworks.com:8020/warehouse/tablespace/managed/hive/jbarnett.db/people/delta_0000007_0000007_0003/_orc_acid_version
--rw-rw----+  3 hive hadoop       1773 2020-02-10 17:20 hdfs://c316-node2.squadron.support.hortonworks.com:8020/warehouse/tablespace/managed/hive/jbarnett.db/people/delta_0000007_0000007_0003/bucket_00000
-
-
 ------------------------------------------------------------------------------------------------
 -- 6. Type 2 SCD Merge (optional)
 --   Uses people_type2 table
 --   Natural Key is id + begin_dt
 --   end_dt = '9999-12-31' indicates the current record
---   If there is no end_dt = '9999-12-31' then record is (logically) deleted
+--   If end_dt < '9999-12-31' then record is (logically) deleted
 -- Ref: https://github.com/cartershanklin/hive-scd-examples
 ------------------------------------------------------------------------------------------------
-
 -- Insert some initial data
 INSERT OVERWRITE TABLE people_type2
 SELECT id, '2020-01-01', '9999-12-31', first_name, last_name, email, gender, phone_nbr

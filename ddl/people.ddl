@@ -21,7 +21,7 @@ DROP TABLE IF EXISTS people_type2;
 CREATE TABLE people_type2 (
   id bigint,
   start_dt date,
-  end_dt date default '9999-12-31',
+  end_dt date,
   first_name string,
   last_name string,
   email string,
