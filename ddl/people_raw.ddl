@@ -1,5 +1,5 @@
 DROP TABLE IF EXISTS default.people_raw;
-CREATE TABLE default.people_raw (
+CREATE EXTERNAL TABLE default.people_raw (
   id bigint,
   first_name string,
   last_name string,
