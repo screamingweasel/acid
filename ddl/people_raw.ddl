@@ -1,21 +1,33 @@
-------------------------------------------------------------------------------------------------
--- Exter
-------------------------------------------------------------------------------------------------
--- wget https://screamingweasel.s3.us-west-2.amazonaws.com/people.csv
--- hadoop fs -mkdir -p /tmp/people
--- hadoop fs -put ./people.csv /tmp/people
+CREATE DATABASE IF NOT EXISTS <database>;
+USE <database>;
 
-DROP TABLE IF EXISTS default.people_raw;
-CREATE EXTERNAL TABLE default.people_raw (
+-- Basic Hive ACID CRUD table
+DROP TABLE IF EXISTS people;
+CREATE TABLE people (
   id bigint,
   first_name string,
   last_name string,
   email string,
   gender string,
   phone_nbr string)
-ROW FORMAT DELIMITED
-FIELDS TERMINATED BY ','
-STORED AS TEXTFILE
-LOCATION '/tmp/people/';
+STORED AS ORC
+TBLPROPERTIES (
+  'transactional'='true',
+  'transactional_properties'='default');
 
-SELECT * FROM default.people_raw limit 10;
+-- For optional exercise
+-- Hive ACID SCD Type 2 table (with history)
+DROP TABLE IF EXISTS people_type2;
+CREATE TABLE people_type2 (
+  id bigint,
+  start_dt date,
+  end_dt date,
+  first_name string,
+  last_name string,
+  email string,
+  gender string,
+  phone_nbr string)
+STORED AS ORC
+TBLPROPERTIES (
+  'transactional'='true',
+  'transactional_properties'='default');
