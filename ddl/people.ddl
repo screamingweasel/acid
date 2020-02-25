@@ -1,5 +1,5 @@
-CREATE DATABASE <mydb>;
-USE <mydb>;
+CREATE DATABASE IF NOT EXISTS <database>;
+USE <database>;
 
 -- Basic Hive ACID CRUD table
 DROP TABLE IF EXISTS people;
