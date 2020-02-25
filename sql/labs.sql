@@ -110,63 +110,16 @@ WHERE  id BETWEEN 1 AND 20;
 -- Create an update table with updates, inserts, deletes
 DROP TABLE IF EXISTS people_updates;
 CREATE TABLE people_updates
-SELECT id, '<curr-date>' as begin_dt, CAST('9999-12-31' AS date) as end_dt 
+SELECT id, CAST(TO_DATE(FROM_UNIXTIME(UNIX_TIMESTAMP()))as date) as begin_dt, CAST('9999-12-31' AS date) as end_dt 
 	CASE 
-	  WHEN id BETWEEN 1  AND 10 THEN CONCAT(first_name,'-UPD') 
-	  WHEN id BETWEEN 12 AND 20 THEN CONCAT(first_name,'-DEL')
-	  ELSE first_name 
+	  WHEN id BETWEEN 11 AND 20 THEN CONCAT(first_name,'-UPD')
+	  ELSE CONCAT(first_name,'-INS')
 	END AS first_name, 
 	last_name, email, gender, phone_nbr,
 	CASE WHEN id BETWEEN 12 AND 20 THEN 'Y' ELSE 'N' END AS del_flag
 FROM default.people
-WHERE ID BETWEEN 1 AND 30;
+WHERE ID BETWEEN 11 AND 30;
 
-MERGE INTO people_type2 AS T
-USING (
-  SELECT id, begin_dt, end_dt, first_name, last_name, email, gender, phone_nbr, del_flag
-  FROM people_updates UPD
+-- Tip, here is date -1 
+CAST(TO_DATE(FROM_UNIXTIME(UNIX_TIMESTAMP()-86400))as date)
 
-  -- Inserts (Inserts and new version of existing rows)
-  SELECT CAST(S.key as bigint) as key,
-	 current_date() AS start_dt,
-	 CAST('9999-12-31' AS date) AS end_dt,
-	 S.attr1,
-	 S.attr2,
-	 S.attr3,
-	 S.year,
-	 S.month,
-	 CASE WHEN T.key IS NULL THEN 'I' ELSE 'N' END AS operation
-  FROM acid.src_full AS S
-  LEFT JOIN acid.tgt_type2 AS T
-  ON S.key = T.key
-  AND T.current_flag = 'Y'
-  WHERE T.key IS NULL
-  OR HASH(S.attr1,S.attr2,S.attr3,S.year,S.month) <> HASH(T.attr1,T.attr2,T.attr3,T.year,T.month)
-  --
-  UNION ALL
-  -- Updates (Deleted and old version of updated rows)
-  SELECT CAST(T.key as bigint) as key,
-	 T.start_dt,
-	 CAST(DATE_SUB(current_date(),1) AS date) AS end_dt,
-	 T.attr1,
-	 T.attr2,
-	 T.attr3,
-	 T.year,
-	 T.month,
-         CASE WHEN S.key IS NULL THEN 'D' ELSE 'U' END AS operation
-  FROM acid.tgt_type2 AS T
-  LEFT JOIN acid.src_full AS S
-  ON S.key = T.key
-  AND T.current_flag = 'Y'
-  WHERE S.key IS NULL
-  OR HASH(S.attr1,S.attr2,S.attr3,S.year,S.month) <> HASH(T.attr1,T.attr2,T.attr3,T.year,T.month)) AS S
---
--- Note additional columns in join (updates only ever affect current row)
-ON S.key = T.key
-AND S.start_dt = T.start_dt
-  AND T.current_flag = 'Y'
---AND T.end_dt = CAST('9999-12-31' AS date)
-AND S.operation IN ('D','U')
---
-WHEN MATCHED THEN UPDATE SET end_dt=CAST(DATE_SUB(current_date(),1) AS date), current_flag='N'
-WHEN NOT MATCHED THEN INSERT VALUES (S.key, S.start_dt, CAST('9999-12-31' AS date), 'Y', S.attr1, S.attr2, S.attr3, S.year, s.month);

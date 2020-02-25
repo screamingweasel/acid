@@ -1,6 +1,6 @@
 set hivevar:db;
 CREATE DATABASE IF NOT EXISTS ${db};
-USE ${db}
+USE ${db};
 
 -- Basic Hive ACID CRUD table
 DROP TABLE IF EXISTS people;
@@ -32,3 +32,5 @@ STORED AS ORC
 TBLPROPERTIES (
   'transactional'='true',
   'transactional_properties'='default');
+
+SHOW TABLES IN ${db};
