@@ -1,5 +1,6 @@
-CREATE DATABASE IF NOT EXISTS <database>;
-USE <database>;
+set hivevar:db;
+CREATE DATABASE IF NOT EXISTS ${db};
+USE ${db}
 
 -- Basic Hive ACID CRUD table
 DROP TABLE IF EXISTS people;
